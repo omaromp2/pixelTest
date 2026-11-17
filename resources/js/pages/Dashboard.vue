@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { Head } from "@inertiajs/vue3";
-import PlaceholderPattern from "@/components/PlaceholderPattern.vue";
-import { dashboard } from "@/routes";
+import { Head } from '@inertiajs/vue3';
+import PlaceholderPattern from '@/components/PlaceholderPattern.vue';
+import { dashboard } from '@/routes';
 
 defineOptions({
     layout: {
         breadcrumbs: [
             {
-                title: "Dashboard",
+                title: 'Dashboard',
                 href: dashboard(),
             },
         ],
@@ -26,7 +26,7 @@ defineOptions({
                 class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border"
             >
                 <!-- <PlaceholderPattern /> -->
-                <h2 class="text-center bold pt-2">Hire for unlocking</h2>
+                <h2 class="bold pt-2 text-center">Hire for unlocking</h2>
             </div>
             <div
                 class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border"

@@ -40,12 +40,12 @@ There are three ways the app learns that a generation finished, and they all app
 
 ### Events
 
-| Event | Listener | What it does |
-|---|---|---|
-| `GenerationRequested` | `SubmitGenerationToPixelforge` | Sends the generation to Pixelforge. If Pixelforge rejects it, marks it failed and shows the error on the form. |
-| `GenerationSucceeded` | `ChargeForGeneration` | Charges the actual price and refunds the rest of the reservation. |
-| `GenerationFailed` | `RefundGeneration` | Refunds the whole reservation. |
-| `PixelforgeWebhookReceived` | `SyncGenerationFromWebhook` | Applies the webhook to the matching generation. |
+| Event                       | Listener                       | What it does                                                                                                   |
+| --------------------------- | ------------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| `GenerationRequested`       | `SubmitGenerationToPixelforge` | Sends the generation to Pixelforge. If Pixelforge rejects it, marks it failed and shows the error on the form. |
+| `GenerationSucceeded`       | `ChargeForGeneration`          | Charges the actual price and refunds the rest of the reservation.                                              |
+| `GenerationFailed`          | `RefundGeneration`             | Refunds the whole reservation.                                                                                 |
+| `PixelforgeWebhookReceived` | `SyncGenerationFromWebhook`    | Applies the webhook to the matching generation.                                                                |
 
 All four listeners must run immediately, not on a queue. The webhook listeners share a database transaction with the event-id record that prevents double processing, and a Pixelforge rejection has to reach the user on the same request.
 
@@ -112,15 +112,15 @@ Pixelforge's test keywords are useful in prompts: `[succeed]`, `[fail]`, `[slow]
 
 ## Project map
 
-| Path | Purpose |
-|---|---|
-| `app/Services/Pixelforge.php` | API client (pricing, create, retrieve, usage) with retries and idempotency |
-| `app/Services/PixelforgeCost.php` | Estimate, actual cost and markup in nanodollars |
-| `app/Models/Generation.php` | Status changes (`syncWith`), `pending` scope, success/failure events |
-| `app/Enums/GenerationStatus.php` | Status order: a generation never moves back to an earlier status |
-| `app/Http/Middleware/VerifyPixelforgeSignature.php` | HMAC check, rejects requests older than 5 minutes |
-| `app/Http/Controllers/` | Generate/History, credits, webhook, admin report |
-| `app/Events/`, `app/Listeners/` | Submission, billing and webhook handling |
-| `routes/console.php` | `pixelforge:sync` and its schedule |
-| `resources/js/pages/generations/` | `Create.vue` (form and estimate), `Index.vue` (history) |
-| `resources/js/pages/admin/Report.vue` | Admin report |
+| Path                                                | Purpose                                                                    |
+| --------------------------------------------------- | -------------------------------------------------------------------------- |
+| `app/Services/Pixelforge.php`                       | API client (pricing, create, retrieve, usage) with retries and idempotency |
+| `app/Services/PixelforgeCost.php`                   | Estimate, actual cost and markup in nanodollars                            |
+| `app/Models/Generation.php`                         | Status changes (`syncWith`), `pending` scope, success/failure events       |
+| `app/Enums/GenerationStatus.php`                    | Status order: a generation never moves back to an earlier status           |
+| `app/Http/Middleware/VerifyPixelforgeSignature.php` | HMAC check, rejects requests older than 5 minutes                          |
+| `app/Http/Controllers/`                             | Generate/History, credits, webhook, admin report                           |
+| `app/Events/`, `app/Listeners/`                     | Submission, billing and webhook handling                                   |
+| `routes/console.php`                                | `pixelforge:sync` and its schedule                                         |
+| `resources/js/pages/generations/`                   | `Create.vue` (form and estimate), `Index.vue` (history)                    |
+| `resources/js/pages/admin/Report.vue`               | Admin report                                                               |
